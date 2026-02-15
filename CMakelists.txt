@@ -1,0 +1,118 @@
+cmake_minimum_required(VERSION 3.11)
+
+project(winquake LANGUAGES C)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+set(SOURCES
+    ${CMAKE_SOURCE_DIR}/WinQuake/cd_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/chase.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cl_demo.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cl_input.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cl_main.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cl_parse.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cl_tent.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cmd.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/common.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/conproc.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/console.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/crc.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/cvar.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_edge.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_fill.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_init.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_modech.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_part.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_polyse.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_scan.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_sky.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_sprite.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_surf.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_vars.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/d_zpoint.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/draw.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/host_cmd.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/host.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/in_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/keys.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/mathlib.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/menu.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/model.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_dgrm.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_loop.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_main.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_vcr.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_wins.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/net_wipx.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/nonintel.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/pr_cmds.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/pr_edict.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/pr_exec.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_aclip.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_alias.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_bsp.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_draw.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_edge.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_efrag.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_light.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_main.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_misc.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_part.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_sky.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_sprite.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_surf.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/r_vars.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sbar.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/screen.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/snd_dma.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/snd_mem.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/snd_mix.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/snd_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sv_main.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sv_move.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sv_phys.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sv_user.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/sys_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/vid_win.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/view.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/wad.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/world.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/zone.c
+    ${CMAKE_SOURCE_DIR}/WinQuake/winquake.rc
+)
+
+set(SCITECH_LIB ${CMAKE_SOURCE_DIR}/WinQuake/scitech/LIB/WIN32/VC/MGLLT.LIB)
+
+
+set(DX_SDK_LIB_DIR ${CMAKE_SOURCE_DIR}/WinQuake/dxsdk/SDK/LIB)
+set(DX_LIBS
+    ${DX_SDK_LIB_DIR}/DXGUID.LIB
+    ${DX_SDK_LIB_DIR}/dinput.lib
+)
+
+add_executable(winquake ${SOURCES})
+
+set_target_properties(winquake PROPERTIES
+    WIN32_EXECUTABLE TRUE
+)
+
+target_link_libraries(winquake PRIVATE
+    ${SCITECH_LIB}
+    ${DX_LIBS}
+    winmm wsock32 kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32
+)
+
+if(MSVC)
+    target_link_options(winquake PRIVATE
+        /NODEFAULTLIB:libc.lib
+    )
+endif()
+
+target_include_directories(winquake PRIVATE
+    ${CMAKE_SOURCE_DIR}/WinQuake
+    ${CMAKE_SOURCE_DIR}/WinQuake/dxsdk/SDK/INC
+    ${CMAKE_SOURCE_DIR}/WinQuake/scitech/INCLUDE
+)
